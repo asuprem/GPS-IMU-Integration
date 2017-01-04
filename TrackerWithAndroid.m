@@ -109,46 +109,7 @@ end
 
 %L(2,1,:) = -1*L(2,1,:);
 
-set(0,'DefaultFigureWindowStyle','normal')
-
-dataNumber = 0;%input('Show orientation tracking? (1/0):  ');
-if(dataNumber == 1)
-
-    fig = figure(1);
-    set(fig,'DoubleBuffer','on');
-    set(gca,'xlim',[-2 2],'ylim',[-2 2],'zlim',[-2 2],...
-    'NextPlot','replace','Visible','off')
-
-%     for moo = 1:dataLength
-%         figure(1)
-%         plot3(L(:,1,moo),L(:,2,moo),L(:,3,moo));
-%         axis([-3 3 -3 3 -3 3]) 
-%         grid on;
-%         title(['time   '  num2str(moo/100)]);
-%         %figure(2)
-%         %plot(horzcat(accZ(1:moo)',zeros(1,dataLength-moo)));
-%         %axis([0 dataLength min(accZ) max(accZ)]);
-%         pause(.005)
-%     drawnow  
-%     end
-   
-
-    for moo = 1:dataLength
-        figure(1)
-        plot(L(:,1,moo),L(:,2,moo));hold on;
-        plot(L(:,1,1),L(:,2,1));
-        hold off;
-        axis([-3 3 -3 3]) 
-        grid on;
-        title(['time   '  num2str(moo/100) '       theta   ' num2str(theta(moo)*(180/pi))]);
-        %figure(2)
-        %plot(horzcat(accZ(1:moo)',zeros(1,dataLength-moo)));
-        %axis([0 dataLength min(accZ) max(accZ)]);
-        pause(.005)
-    drawnow  
-    end
-
-end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
    set(0,'DefaultFigureWindowStyle','docked')
 
@@ -191,9 +152,45 @@ end
 %%
 
 set(0,'DefaultFigureWindowStyle','normal')
+set(0,'DefaultFigureWindowStyle','normal')
 
+dataNumber = input('Show orientation tracking? (1/0):  ');
+if(dataNumber == 1)
 
-dataNumber = 0;%input('Show orientation tracking with mapping? (1/0):  ');
+    fig = figure(1);
+    set(fig,'DoubleBuffer','on');
+    set(gca,'xlim',[-2 2],'ylim',[-2 2],'zlim',[-2 2],...
+    'NextPlot','replace','Visible','off')
+	
+	for moo = 1:dataLength
+         figure(1)
+		 subplot(2,2,1)
+			 plot3(P(:,1,moo),P(:,2,moo),P(:,3,moo));
+			 axis([-3 3 -3 3 -3 3]) 
+			 grid on;
+			 title(['time   '  num2str(moo/100)]);
+         subplot(2,2,2)
+			 plot(horzcat(accZ(1:moo)',zeros(1,dataLength-moo)));
+			 axis([0 dataLength min(accZ) max(accZ)]);
+			 title('Footstep Tracker');
+		 subplot(2,2,3)
+			plot(L(:,1,moo),L(:,2,moo));hold on;
+			plot(L(:,1,1),L(:,2,1));
+			hold off;
+			axis([-3 3 -3 3]) 
+			grid on;
+			title(['time   '  num2str(moo/100) '       theta   ' num2str(theta(moo)*(180/pi))]);
+		subplot(2,2,4)
+        plot(positionTrack(1:moo,1),positionTrack(1:moo,2),'.');
+        axis([min(positionTrack(:,1))-10 max(positionTrack(:,1))+10 min(positionTrack(:,2))-10 max(positionTrack(:,2))+10]);
+        
+         pause(.005)
+     drawnow  
+     end
+end
+
+if(~dataNumber)
+dataNumber = input('Show orientation tracking with mapping? (1/0):  ');
 if(dataNumber == 1)
 
     fig = figure(2);
@@ -203,21 +200,22 @@ if(dataNumber == 1)
 
     for moo = 1:dataLength
         figure(2)
-        plot(L(:,1,moo),L(:,2,moo));hold on;
+        subplot(1,2,1)
+		plot(L(:,1,moo),L(:,2,moo));hold on;
         plot(L(:,1,1),L(:,2,1));
         hold off;
         axis([-3 3 -3 3]) 
         grid on;
         title(['time   '  num2str(moo/100) '       theta   ' num2str(theta(moo)*(180/pi))]);
-        figure(3)
-        plot(positionTrack(1:moo,1),positionTrack(1:moo,2));
-        axis([min(positionTrack(:,1)) max(positionTrack(:,1)) min(positionTrack(:,2)) max(positionTrack(:,2))]);
+        subplot(1,2,2)
+        plot(positionTrack(1:moo,1),positionTrack(1:moo,2),'.');
+        axis([min(positionTrack(:,1))-10 max(positionTrack(:,1))+10 min(positionTrack(:,2))-10 max(positionTrack(:,2))+10]);
         pause(.005)
     drawnow  
     end
     
 else
-    dataNumber = 1;%input('Show final tracking map? (1/0):  ');
+    dataNumber = input('Show final tracking map? (1/0):  ');
     if (dataNumber == 1)
         trackingMap = figure(3);
         plot(positionTrack(:,1),positionTrack(:,2),'.');
@@ -225,7 +223,7 @@ else
     end
 end
 
-
+end
 
 
 %% GPS tracking
