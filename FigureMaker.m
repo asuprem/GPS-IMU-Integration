@@ -1,14 +1,35 @@
 hFig = figure(1);
+clf;
+
+
 plot(positionTrack(:,1),positionTrack(:,2),'.');
 grid on;
 xlabel('East \rightarrow');
 ylabel(' North \rightarrow');
-title('GPS coordinates');
+title('IMU coordinates');
+
+% dim = [.72 .2 .03 .4];
+% annotation('rectangle',dim,'Color','red');
+% 
+% dim = [.18 .63 .05 .07];
+% annotation('rectangle',dim,'Color','red');
+% 
+% dim = [.18 .40 .05 .17];
+% annotation('rectangle',dim,'Color','red');
+% 
+% dim = [.35 .35 .3 .23];
+% str = ['The missing GPS signals need to be obtained by combining' ...
+%     ' the IMU data points and correlating them with the known GPS' ...
+%     'points. The correlated will be conducted on a section by section' ...
+%     'basis, where each section is qualitatively determined as a' ...
+%     'direction of travel.'];
+% annotation('textbox',dim,'String',str,'Color','black')
+
 set(findall(gcf,'-property','FontSize'),'FontSize',14);
 set(gcf,'color','w');
-legend('Coordinates','Missing');
-set(hFig, 'Position', [50, 50, 1200, 900]);
-print('-dpng','-r72','actualPosition.png')
+legend('Coordinates');
+set(hFig, 'Position', [50, 50, 1000, 700]);
+print('-dpng','-r72','resultsIMUCoordinatesOnly.png')
 
 
 % hFig = figure(1);
